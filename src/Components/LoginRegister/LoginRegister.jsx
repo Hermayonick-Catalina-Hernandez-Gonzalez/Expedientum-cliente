@@ -3,8 +3,13 @@ import "./LoginRegister.css";
 import { FaUser, FaLock } from "react-icons/fa";
 import fondoImage from '../assets/imagen.jpg';
 
-const LoginRegister = () => {
+const LoginRegister = ({ onLogin }) => {
     const [isForgotPassword, setIsForgotPassword] = useState(false);
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+        onLogin();
+    };
 
     return (
         <div className="caja-login">
@@ -20,7 +25,7 @@ const LoginRegister = () => {
                     <p><a href="# " onClick={() => setIsForgotPassword(false)}>Volver al inicio de sesión</a></p>
                 </form>
             ) : (
-                <form className="formulario-login" onSubmit={(e) => { e.preventDefault(); /* Lógica para manejar el inicio de sesión */ }}>
+                <form className="formulario-login" onSubmit={handleSubmit}>
                     <h2>Iniciar sesión</h2>
                     <div className="caja-input">
                         <FaUser className="icono" />
