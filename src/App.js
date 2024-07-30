@@ -4,12 +4,13 @@ import LoginRegister from './Components/LoginRegister/LoginRegister';
 import MainPage from './Components/Inicio/MainPage';
 import UserManagement from './Components/Usuarios/UserManagement';
 import AddUser from './Components/Usuarios/AddUser';
+import Documentos from './Components/Documentos/Documentos';
+import UploadDocument from './Components/Documentos/UploadDocument';
 
 function App() {
     const handleLogin = () => {
-        // Aquí puedes manejar la lógica para iniciar sesión
         console.log("Login successful");
-        window.location.href = "/home"; // Redireccionar a la página principal después del inicio de sesión
+        window.location.href = "/home";
     };
 
     return (
@@ -19,6 +20,8 @@ function App() {
                 <Route path="/home" element={<MainPage />} />
                 <Route path="/users" element={<UserManagement />} />
                 <Route path="/add-user" element={<AddUser />} />
+                <Route path="/documentos" element={<Documentos />} />
+                <Route path="/upload-document" element={<UploadDocument />} />
             </Routes>
         </Router>
     );

@@ -2,13 +2,17 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import './MainPage.css';
 import pageLogo from '../assets/logo.png';
-import logoutIcon from '../assets/cerrar.png'; 
+import logoutIcon from '../assets/cerrar.png';
 
 const MainPage = () => {
     const navigate = useNavigate();
 
     const goToUserManagement = () => {
         navigate('/users');
+    };
+
+    const goToDocumentos = () => {
+        navigate('/documentos');
     };
 
     return (
@@ -21,7 +25,7 @@ const MainPage = () => {
                 <ul className="nav-links">
                     <li onClick={goToUserManagement}>Usuarios</li>
                     <li>Expedientes</li>
-                    <li>Documentos</li>
+                    <li onClick={goToDocumentos}>Documentos</li>
                     <li>Perfil</li>
                 </ul>
                 <div className="logout-icon">
@@ -31,10 +35,11 @@ const MainPage = () => {
             <div className="main-cards">
                 <div className="card" onClick={goToUserManagement}>Usuarios</div>
                 <div className="card">Expedientes</div>
-                <div className="card">Documentos</div>
+                <div className="card" onClick={goToDocumentos}>Documentos</div>
             </div>
         </div>
     );
 }
 
 export default MainPage;
+
