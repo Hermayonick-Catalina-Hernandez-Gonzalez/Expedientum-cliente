@@ -43,7 +43,7 @@ const UploadDocument = () => {
 
     return (
         <div className="main-container">
-            <nav className="navbar">
+            <nav className="navegacion">
                 <div className="logo">
                     <img src={pageLogo} alt="Page Logo" />
                     Expedium
