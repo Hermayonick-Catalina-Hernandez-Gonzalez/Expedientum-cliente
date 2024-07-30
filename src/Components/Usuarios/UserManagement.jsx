@@ -1,18 +1,22 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom'; // Importar useNavigate
+import { useNavigate } from 'react-router-dom';
 import './UserManagement.css';
-import pageLogo from '../assets/logo.png';  // Ruta ajustada
-import logoutIcon from '../assets/cerrar.png';  // Ruta ajustada
-import viewIcon from '../assets/ojo.png';  // Ruta ajustada
-import editIcon from '../assets/lapiz.png';  // Ruta ajustada
-import deleteIcon from '../assets/basura.png';  // Ruta ajustada
-import searchIcon from '../assets/buscar.png';  // Ruta ajustada
+import pageLogo from '../assets/logo.png';
+import logoutIcon from '../assets/cerrar.png';
+import viewIcon from '../assets/ojo.png';
+import editIcon from '../assets/lapiz.png';
+import deleteIcon from '../assets/basura.png';
+import searchIcon from '../assets/buscar.png';
 
 const UserManagement = () => {
-    const navigate = useNavigate(); // Inicializar useNavigate
+    const navigate = useNavigate();
+
+    const handleAddUser = () => {
+        navigate('/add-user');
+    };
 
     const handleBack = () => {
-        navigate('/home'); // Redirigir a /home
+        navigate('/home'); 
     };
 
     return (
@@ -38,8 +42,8 @@ const UserManagement = () => {
                         <input type="text" placeholder="Buscar" className="search-input" />
                         <img src={searchIcon} alt="Buscar" className="search-icon" />
                     </div>
-                    <button className="add-user-btn">Agregar usuario</button>
-                    <button className="back-btn" onClick={handleBack}>Regresar</button> {/* Botón de regresar */}
+                    <button className="add-user-btn" onClick={handleAddUser}>Agregar usuario</button>
+                    <button className="back-btn" onClick={handleBack}>Regresar</button>
                 </div>
                 <div className="user-table">
                     <table>
@@ -77,3 +81,4 @@ const UserManagement = () => {
 }
 
 export default UserManagement;
+

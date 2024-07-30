@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LoginRegister from './Components/LoginRegister/LoginRegister';
 import MainPage from './Components/Inicio/MainPage';
 import UserManagement from './Components/Usuarios/UserManagement';
+import AddUser from './Components/Usuarios/AddUser';
 
 function App() {
     const handleLogin = () => {
@@ -17,6 +18,7 @@ function App() {
                 <Route path="/" element={<LoginRegister onLogin={handleLogin} />} />
                 <Route path="/home" element={<MainPage />} />
                 <Route path="/users" element={<UserManagement />} />
+                <Route path="/add-user" element={<AddUser />} />
             </Routes>
         </Router>
     );
