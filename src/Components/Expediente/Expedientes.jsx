@@ -31,6 +31,10 @@ const Expedientes = () => {
         navigate('/perfil');
     };
 
+    const handleAddExpediente = () => {
+        navigate('/registro-expediente');
+    };
+
     return (
         <div className="main-container">
             <nav className="navbar">
@@ -54,7 +58,7 @@ const Expedientes = () => {
                         <input type="text" placeholder="Buscar" className="search-input" />
                         <img src={searchIcon} alt="Buscar" className="search-icon" />
                     </div>
-                    <button className="add-user-btn" >Subir expediente</button>
+                    <button className="add-user-btn" onClick={handleAddExpediente}>Subir expediente</button>
                     <button className="back-btn" onClick={handleBack}>Regresar</button>
                 </div>
             </div>
