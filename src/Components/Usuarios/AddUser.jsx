@@ -8,12 +8,27 @@ const AddUser = () => {
     const navigate = useNavigate();
 
     const handleBack = () => {
-        navigate('/users'); // Ajusta esto según tu ruta real para la gestión de usuarios
+        navigate('/users');
     };
 
     const handleRegister = () => {
-        // Lógica para registrar un nuevo usuario
         console.log('Usuario registrado');
+    };
+
+    const goToUserManagement = () => {
+        navigate('/users');
+    };
+
+    const goToDocumentos = () => {
+        navigate('/documentos');
+    };
+
+    const goToExpedientes = () => {
+        navigate('/expedientes');
+    };
+
+    const goToPerfil = () => {
+        navigate('/perfil');
     };
 
     return (
@@ -24,10 +39,10 @@ const AddUser = () => {
                     <span>Expedium</span>
                 </div>
                 <ul className="nav-links">
-                    <li>Usuarios</li>
-                    <li>Expedientes</li>
-                    <li>Documentos</li>
-                    <li>Perfil</li>
+                    <li onClick={goToUserManagement}>Usuarios</li>
+                    <li onClick={goToExpedientes}>Expedientes</li>
+                    <li onClick={goToDocumentos}>Documentos</li>
+                    <li onClick={goToPerfil}>Perfil</li>
                 </ul>
                 <div className="logout-icon">
                     <img src={logoutIcon} alt="Logout" />

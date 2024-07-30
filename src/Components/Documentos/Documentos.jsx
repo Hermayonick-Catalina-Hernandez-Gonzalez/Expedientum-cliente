@@ -10,16 +10,28 @@ import './Documentos.css';
 const Documentos = () => {
     const navigate = useNavigate();
 
-    const goToUserManagement = () => {
-        navigate('/users');
-    };
-
     const goToUploadDocument = () => {
         navigate('/upload-document');
     };
 
     const handleBack = () => {
         navigate('/home');
+    };
+
+    const goToUserManagement = () => {
+        navigate('/users');
+    };
+
+    const goToDocumentos = () => {
+        navigate('/documentos');
+    };
+
+    const goToExpedientes = () => {
+        navigate('/expedientes');
+    };
+
+    const goToPerfil = () => {
+        navigate('/perfil');
     };
 
     return (
@@ -31,9 +43,9 @@ const Documentos = () => {
                 </div>
                 <ul className="nav-links">
                     <li onClick={goToUserManagement}>Usuarios</li>
-                    <li>Expedientes</li>
-                    <li>Documentos</li>
-                    <li>Perfil</li>
+                    <li onClick={goToExpedientes}>Expedientes</li>
+                    <li onClick={goToDocumentos}>Documentos</li>
+                    <li onClick={goToPerfil}>Perfil</li>
                 </ul>
                 <div className="logout-icon">
                     <img src={logoutIcon} alt="Logout" />

@@ -15,6 +15,14 @@ const MainPage = () => {
         navigate('/documentos');
     };
 
+    const goToExpedientes = () => {
+        navigate('/expedientes');
+    };
+
+    const goToPerfil = () => {
+        navigate('/perfil');
+    };
+
     return (
         <div className="main-container">
             <nav className="navbar">
@@ -24,9 +32,9 @@ const MainPage = () => {
                 </div>
                 <ul className="nav-links">
                     <li onClick={goToUserManagement}>Usuarios</li>
-                    <li>Expedientes</li>
+                    <li onClick={goToExpedientes}>Expedientes</li>
                     <li onClick={goToDocumentos}>Documentos</li>
-                    <li>Perfil</li>
+                    <li onClick={goToPerfil}>Perfil</li>
                 </ul>
                 <div className="logout-icon">
                     <img src={logoutIcon} alt="Logout" />
@@ -34,7 +42,7 @@ const MainPage = () => {
             </nav>
             <div className="main-cards">
                 <div className="card" onClick={goToUserManagement}>Usuarios</div>
-                <div className="card">Expedientes</div>
+                <div className="card" onClick={goToExpedientes}>Expedientes</div>
                 <div className="card" onClick={goToDocumentos}>Documentos</div>
             </div>
         </div>
@@ -42,4 +50,3 @@ const MainPage = () => {
 }
 
 export default MainPage;
-

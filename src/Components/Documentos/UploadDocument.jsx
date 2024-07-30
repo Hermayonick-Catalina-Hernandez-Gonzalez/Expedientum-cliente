@@ -41,6 +41,18 @@ const UploadDocument = () => {
         navigate('/users');
     };
 
+    const goToDocumentos = () => {
+        navigate('/documentos');
+    };
+
+    const goToExpedientes = () => {
+        navigate('/expedientes');
+    };
+
+    const goToPerfil = () => {
+        navigate('/perfil');
+    };
+
     return (
         <div className="main-container">
             <nav className="navegacion">
@@ -50,9 +62,9 @@ const UploadDocument = () => {
                 </div>
                 <ul className="nav-links">
                     <li onClick={goToUserManagement}>Usuarios</li>
-                    <li>Expedientes</li>
-                    <li>Documentos</li>
-                    <li>Perfil</li>
+                    <li onClick={goToExpedientes}>Expedientes</li>
+                    <li onClick={goToDocumentos}>Documentos</li>
+                    <li onClick={goToPerfil}>Perfil</li>
                 </ul>
                 <div className="logout-icon">
                     <img src={logoutIcon} alt="Logout" />

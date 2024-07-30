@@ -19,6 +19,26 @@ const UserManagement = () => {
         navigate('/home'); 
     };
 
+    const handleModifyUser = () => {
+        navigate('/modificar-usuario');
+    };
+
+    const goToUserManagement = () => {
+        navigate('/users');
+    };
+
+    const goToDocumentos = () => {
+        navigate('/documentos');
+    };
+
+    const goToExpedientes = () => {
+        navigate('/expedientes');
+    };
+
+    const goToPerfil = () => {
+        navigate('/perfil');
+    };
+
     return (
         <div className="main-container">
             <nav className="navbar">
@@ -27,10 +47,10 @@ const UserManagement = () => {
                     <span>Expedium</span>
                 </div>
                 <ul className="nav-links">
-                    <li>Usuarios</li>
-                    <li>Expedientes</li>
-                    <li>Documentos</li>
-                    <li>Perfil</li>
+                    <li onClick={goToUserManagement}>Usuarios</li>
+                    <li onClick={goToExpedientes}>Expedientes</li>
+                    <li onClick={goToDocumentos}>Documentos</li>
+                    <li onClick={goToPerfil}>Perfil</li>
                 </ul>
                 <div className="logout-icon">
                     <img src={logoutIcon} alt="Logout" />
@@ -61,10 +81,10 @@ const UserManagement = () => {
                                 <td>juan.perez@example.com</td>
                                 <td>Admin</td>
                                 <td className="actions">
-                                    <button className="action-btn">
+                                    <button className="action-btn" onClick={handleModifyUser}>
                                         <img src={viewIcon} alt="Ver" />
                                     </button>
-                                    <button className="action-btn">
+                                    <button className="action-btn" onClick={handleModifyUser}>
                                         <img src={editIcon} alt="Modificar" />
                                     </button>
                                     <button className="action-btn">
@@ -81,4 +101,3 @@ const UserManagement = () => {
 }
 
 export default UserManagement;
-
