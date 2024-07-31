@@ -1,16 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import pageLogo from '../assets/logo.png';
 import logoutIcon from '../assets/cerrar.png';
 import viewIcon from '../assets/ojo.png';
 import deleteIcon from '../assets/basura.png';
+import AgregarDocumentoModal from './AgregarDocumentoModal';
 import './ModificarExpedientes.css';
 
 const ModificarExpediente = () => {
     const navigate = useNavigate();
+    const [isModalOpen, setIsModalOpen] = useState(false);
 
     const handleBack = () => {
         navigate('/expedientes');
+    };
+
+    const handleOpenModal = () => {
+        setIsModalOpen(true);
+    };
+
+    const handleCloseModal = () => {
+        setIsModalOpen(false);
+    };
+
+    const handleSaveDocument = (data) => {
+        console.log('Documento guardado:', data);
     };
 
     return (
@@ -37,7 +51,7 @@ const ModificarExpediente = () => {
                     <p><strong>Tipo de Expediente:</strong> Tipo A</p>
                     <p><strong>Número de Expediente:</strong> 123344</p>
                     <p><strong>Tags:</strong> Tag1, Tag2</p>
-                    <button className="mod-exp-add-doc-btn">Agregar documento al expediente</button>
+                    <button className="mod-exp-add-doc-btn" onClick={handleOpenModal}>Agregar documento al expediente</button>
                 </div>
                 <div className="mod-exp-document-list">
                     <h3>Lista de documentos</h3>
@@ -67,8 +81,9 @@ const ModificarExpediente = () => {
                     <button className="mod-exp-back-btn" onClick={handleBack}>Regresar</button>
                 </div>
             </div>
+            <AgregarDocumentoModal isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveDocument} />
         </div>
     );
-}
+};
 
 export default ModificarExpediente;
