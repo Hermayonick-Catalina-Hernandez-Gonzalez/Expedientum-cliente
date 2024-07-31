@@ -1,0 +1,137 @@
+body, html {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    overflow-x: hidden; 
+    font-family: Arial, sans-serif;
+    background-color: #ffffff;
+}
+
+.mod-exp-main-container {
+    max-width: 100vw; 
+    overflow-x: hidden;
+    box-sizing: border-box; 
+    display: flex;
+    flex-direction: column;
+}
+
+.mod-exp-navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to right, #003152, #0166a5);
+    padding: 10px 20px;
+    box-sizing: border-box; 
+    color: white;
+}
+
+.mod-exp-logo {
+    display: flex;
+    align-items: center;
+    font-size: 24px;
+}
+
+.mod-exp-logo img {
+    height: 40px;
+    margin-right: 10px;
+}
+
+.mod-exp-nav-links {
+    display: flex;
+    list-style: none;
+}
+
+.mod-exp-nav-links li {
+    margin: 0 15px;
+    color: white;
+    cursor: pointer;
+}
+
+.mod-exp-logout-icon img {
+    height: 30px;
+}
+
+.mod-exp-expediente-content {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px auto;
+    width: 80%;
+    gap: 20px;
+}
+
+.mod-exp-expediente-details {
+    background-color: #a2c2d6;
+    padding: 20px;
+    border-radius: 10px;
+    flex: 1;
+}
+
+.mod-exp-expediente-details h3 {
+    margin-top: 0;
+}
+
+.mod-exp-add-doc-btn {
+    background-color: #003152;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.mod-exp-document-list {
+    flex: 2;
+}
+
+.mod-exp-document-list h3 {
+    margin-top: 0;
+}
+
+.mod-exp-document-list table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.mod-exp-document-list th,
+.mod-exp-document-list td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+.mod-exp-document-list .mod-exp-actions {
+    display: flex;
+    gap: 10px;
+    justify-content: center; 
+}
+
+.mod-exp-action-btn {
+    background-color: #003152;
+    border: none;
+    padding: 5px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.mod-exp-action-btn img {
+    width: 20px;
+    height: 20px;
+}
+
+.mod-exp-back-btn {
+    background-color: #0166a5;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+    display: block;
+    width: 100%;
+    text-align: center;
+}

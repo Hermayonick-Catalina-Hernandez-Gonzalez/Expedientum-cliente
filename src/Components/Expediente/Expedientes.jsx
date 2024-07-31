@@ -1,4 +1,4 @@
-// Components/Expediente/Expedientes.js
+// src/components/Expediente/Expedientes.js
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import pageLogo from '../assets/logo.png';
@@ -33,6 +33,10 @@ const Expedientes = () => {
 
     const handleAddExpediente = () => {
         navigate('/registro-expediente');
+    };
+
+    const handleEditExpediente = () => {
+        navigate('/modificar-expediente');
     };
 
     return (
@@ -80,7 +84,7 @@ const Expedientes = () => {
                             <td>12345</td>
                             <td>Tag1, Tag2</td>
                             <td className="actions">
-                                <button className="action-btn">
+                                <button className="action-btn" onClick={handleEditExpediente}>
                                     <img src={editIcon} alt="Modificar" />
                                 </button>
                                 <button className="action-btn">
