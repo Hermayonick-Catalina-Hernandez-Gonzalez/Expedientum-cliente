@@ -5,10 +5,38 @@ import fondoImage from '../assets/imagen.jpg';
 
 const LoginRegister = ({ onLogin }) => {
     const [isForgotPassword, setIsForgotPassword] = useState(false);
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
 
-    const handleSubmit = (e) => {
+    const loginData = {
+        username: username,
+        password: password
+    };
+
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        onLogin();
+        // Realizar la solicitud POST a la API de Laravel
+        try {
+            const response = await fetch('http://localhost:8000/api/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(loginData),
+            });
+
+            const data = await response.json();
+
+            if (response.ok) {
+                console.log('Inicio de sesión exitoso:', data);
+                localStorage.setItem('token', data.token);
+                onLogin(); // Llamar a la función de login si la autenticación es exitosa
+            } else {
+                console.error('Error en el inicio de sesión:', data);
+            }
+        } catch (error) {
+            console.error('Hubo un error con la solicitud:', error);
+        }
     };
 
     return (
@@ -29,12 +57,24 @@ const LoginRegister = ({ onLogin }) => {
                     <h2>Iniciar sesión</h2>
                     <div className="caja-input">
                         <FaUser className="icono" />
-                        <input type="text" placeholder="Usuario" required />
+                        <input
+                            type="text"
+                            placeholder="username"
+                            value={username}  // Asociar el estado 'username' al valor del input
+                            onChange={(e) => setUsername(e.target.value)} // Actualizar el estado 'username' cuando el input cambie
+                            required
+                        />
                         <label>Usuario</label>
                     </div>
                     <div className="caja-input">
                         <FaLock className="icono" />
-                        <input type="password" placeholder="Contraseña" required />
+                        <input
+                            type="password"
+                            placeholder="password"
+                            value={password}  // Asociar el estado 'password' al valor del input
+                            onChange={(e) => setPassword(e.target.value)} // Actualizar el estado 'password' cuando el input cambie
+                            required
+                        />
                         <label>Contraseña</label>
                     </div>
                     <div className="opciones-login">
