@@ -4,14 +4,14 @@ import pageLogo from '../assets/logo.png';
 import logoutIcon from '../assets/cerrar.png';
 import viewIcon from '../assets/ojo.png';
 import deleteIcon from '../assets/basura.png';
-import AgregarDocumentoModal from './AgregarDocumentoModal';
-import AgregarDocumentosExistentesModal from './AgregarDocumentosExistentesModal'; // Nuevo modal
+import AgregarDocumentoModal from './Modal/AgregarDocumentoModal';
+import AgregarDocumentosExistentesModal from './Modal/AgregarDocumentosExistentesModal';
 import './ModificarExpedientes.css';
 
 const ModificarExpediente = () => {
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [isExistingDocsModalOpen, setIsExistingDocsModalOpen] = useState(false); // Nuevo estado para el nuevo modal
+    const [isExistingDocsModalOpen, setIsExistingDocsModalOpen] = useState(false);
 
     const handleBack = () => {
         navigate('/expedientes');

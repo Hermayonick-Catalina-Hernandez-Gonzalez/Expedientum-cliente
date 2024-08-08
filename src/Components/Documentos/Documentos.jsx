@@ -18,6 +18,8 @@ const Documentos = () => {
         navigate('/home');
     };
 
+
+    //Navegacion 
     const goToUserManagement = () => {
         navigate('/users');
     };

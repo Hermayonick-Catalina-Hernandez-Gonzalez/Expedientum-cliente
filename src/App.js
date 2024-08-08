@@ -11,6 +11,7 @@ import Perfil from './Components/Usuarios/Perfil';
 import ModificarUsuario from './Components/Usuarios/ModificarUsuario';
 import RegistroExpediente from './Components/Expediente/RegistroExpediente';
 import ModificarExpediente from './Components/Expediente/ModificarExpediente';
+import AltaExpediente from './Components/Expediente/AltaExpediente';
 
 function App() {
     const handleLogin = () => {
@@ -31,6 +32,8 @@ function App() {
                 <Route path="/modificar-usuario" element={<ModificarUsuario />} />
                 <Route path="/registro-expediente" element={<RegistroExpediente />} /> 
                 <Route path="/modificar-expediente" element={<ModificarExpediente />} /> 
+                <Route path="/alta-expediente" element={<AltaExpediente />} />
+                <Route path="/upload-document" element={<UploadDocument />} />
             </Routes>
         </Router>
     );

@@ -29,15 +29,7 @@ const Expedientes = () => {
     ];
 
     const handleBack = () => {
-        navigate('/home');
-    };
-
-    const handleAddExpediente = () => {
-        navigate('/registro-expediente');
-    };
-
-    const handleAltaExpediente = () => {
-        navigate('/alta-expediente');
+        navigate('/expedientes');
     };
 
     const handleEditExpediente = () => {
@@ -63,7 +55,7 @@ const Expedientes = () => {
     };
 
     //Navegacion 
-    const goToUserManagement = () => {
+     const goToUserManagement = () => {
         navigate('/users');
     };
 
@@ -132,8 +124,6 @@ const Expedientes = () => {
                         <input type="text" placeholder="Buscar" className="search-input" />
                         <img src={searchIcon} alt="Buscar" className="search-icon" />
                     </div>
-                    <button className="add-user-btn" onClick={handleAddExpediente}>Subir expediente</button>
-                    <button className="add-user-btn" onClick={handleAltaExpediente}>Dar de alta expediente</button>
                     <button className="back-btn" onClick={handleBack}>Regresar</button>
                 </div>
             </div>
@@ -145,8 +135,8 @@ const Expedientes = () => {
                             <th>Tipo de Expediente</th>
                             <th>Número de Expediente</th>
                             <th>Tags</th>
-                            <th>Acciones</th>
                             <th>Permisos</th>
+                            <th>Decisiones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -155,18 +145,15 @@ const Expedientes = () => {
                             <td>Tipo A</td>
                             <td>12345</td>
                             <td>Tag1, Tag2</td>
-                            <td className="actions">
-                                <button className="action-btn" onClick={handleEditExpediente}>
-                                    <img src={editIcon} alt="Modificar" />
-                                </button>
-                                <button className="action-btn">
-                                    <img src={deleteIcon} alt="Eliminar" />
-                                </button>
-                            </td>
+                            
                             <td>
                                 <button className="grant-permissions-btn" onClick={handleGrantPermissions}>
                                     Dar Permisos
                                 </button>
+                            </td>
+                            <td>
+                                <button>Permitir</button>
+                                <button>Denegar</button>
                             </td>
                         </tr>
                     </tbody>
