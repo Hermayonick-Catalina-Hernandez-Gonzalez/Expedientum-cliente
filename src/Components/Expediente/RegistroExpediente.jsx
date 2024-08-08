@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import pageLogo from '../assets/logo.png';
 import logoutIcon from '../assets/cerrar.png';
 import './RegistroExpediente.css';
-import { AuthContext } from '../context/context';
+import { AuthContext } from '../../context/context';
 
 const RegistroExpediente = () => {
-    const navigate = useNavigate();
     const { token } = useContext(AuthContext);
+    const navigate = useNavigate();
     const [tipoExpediente, setTipoExpediente] = useState('');
     const [numeroExpediente, setNumeroExpediente] = useState('');
     const [tags, setTags] = useState('');
@@ -29,6 +29,7 @@ const RegistroExpediente = () => {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${token}`
                 },
                 body: JSON.stringify(ExpedienteData),
             });

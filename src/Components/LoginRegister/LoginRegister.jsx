@@ -1,9 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import "./LoginRegister.css";
 import { FaUser, FaLock } from "react-icons/fa";
 import fondoImage from '../assets/imagen.jpg';
+import { AuthContext } from '../../context/context';
 
 const LoginRegister = ({ onLogin }) => {
+    const { setToken } = useContext(AuthContext);
     const [isForgotPassword, setIsForgotPassword] = useState(false);
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -29,7 +31,8 @@ const LoginRegister = ({ onLogin }) => {
 
             if (response.ok) {
                 console.log('Inicio de sesión exitoso:', data);
-                localStorage.setItem('token', data.token);
+                setToken(data.token);  // Actualiza el token en el contexto
+                localStorage.setItem('token', data.token);  // Guarda el token en el contexto y localStorage
                 onLogin(); // Llamar a la función de login si la autenticación es exitosa
             } else {
                 console.error('Error en el inicio de sesión:', data);
