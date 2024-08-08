@@ -5,11 +5,13 @@ import logoutIcon from '../assets/cerrar.png';
 import viewIcon from '../assets/ojo.png';
 import deleteIcon from '../assets/basura.png';
 import AgregarDocumentoModal from './AgregarDocumentoModal';
+import AgregarDocumentosExistentesModal from './AgregarDocumentosExistentesModal'; // Nuevo modal
 import './ModificarExpedientes.css';
 
 const ModificarExpediente = () => {
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isExistingDocsModalOpen, setIsExistingDocsModalOpen] = useState(false); // Nuevo estado para el nuevo modal
 
     const handleBack = () => {
         navigate('/expedientes');
@@ -21,6 +23,14 @@ const ModificarExpediente = () => {
 
     const handleCloseModal = () => {
         setIsModalOpen(false);
+    };
+
+    const handleOpenExistingDocsModal = () => {
+        setIsExistingDocsModalOpen(true);
+    };
+
+    const handleCloseExistingDocsModal = () => {
+        setIsExistingDocsModalOpen(false);
     };
 
     const handleSaveDocument = (data) => {
@@ -51,7 +61,8 @@ const ModificarExpediente = () => {
                     <p><strong>Tipo de Expediente:</strong> Tipo A</p>
                     <p><strong>Número de Expediente:</strong> 123344</p>
                     <p><strong>Tags:</strong> Tag1, Tag2</p>
-                    <button className="mod-exp-add-doc-btn" onClick={handleOpenModal}>Agregar documento al expediente</button>
+                    <button className="mod-exp-add-doc-btn" onClick={handleOpenModal}>Subir documento al expediente</button>
+                    <button className="mod-exp-add-existing-doc-btn" onClick={handleOpenExistingDocsModal}>Agregar documentos existentes</button>
                 </div>
                 <div className="mod-exp-document-list">
                     <h3>Lista de documentos</h3>
@@ -82,6 +93,7 @@ const ModificarExpediente = () => {
                 </div>
             </div>
             <AgregarDocumentoModal isOpen={isModalOpen} onClose={handleCloseModal} onSave={handleSaveDocument} />
+            <AgregarDocumentosExistentesModal isOpen={isExistingDocsModalOpen} onClose={handleCloseExistingDocsModal} /> {/* Nuevo modal */}
         </div>
     );
 };
