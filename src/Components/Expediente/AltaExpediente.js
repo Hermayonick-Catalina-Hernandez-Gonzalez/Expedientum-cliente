@@ -176,6 +176,7 @@ const Expedientes = () => {
                             <th>Tags</th>
                             <th>Acciones</th>
                             <th>Permisos</th>
+                            <th>Decisiones</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -197,6 +198,9 @@ const Expedientes = () => {
                                     <button className="grant-permissions-btn" onClick={handleGrantPermissions}>
                                         Dar Permisos
                                     </button>
+                                </td>
+                                <td>
+                                    <button>Aceptar</button>
                                 </td>
                             </tr>
                         ))}

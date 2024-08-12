@@ -31,8 +31,10 @@ const AddUser = () => {
         departamento: departamento
     };
 
+
+
     const handleBack = () => {
-        navigate('/add-user');
+        navigate('/users');
     };
 
     const handleRegister  = async () =>  {
@@ -156,9 +158,7 @@ const AddUser = () => {
                         <button className="register-btn" onClick={handleRegister}>
                             Registrar
                         </button>
-                        <button className="back-btn" onClick={handleBack}>
-                            Regresar
-                        </button>
+                        <button className="back-btn" onClick={handleBack}>Regresar</button>
                     </div>
                 </div>
             </div>
