@@ -1,7 +1,8 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Modal from 'react-modal';
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/context';
 import pageLogo from '../assets/logo.png';
 import editIcon from '../assets/lapiz.png';
 import deleteIcon from '../assets/basura.png';
@@ -9,14 +10,16 @@ import logoutIcon from '../assets/cerrar.png';
 import searchIcon from '../assets/buscar.png';
 import './Expedientes.css';
 
-// Estilos básicos para el modal
 Modal.setAppElement('#root');
 
 const Expedientes = () => {
+    const { token } = useContext(AuthContext);
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [permissions, setPermissions] = useState([]);
+    const [expedientes, setExpedientes] = useState([]);
 
+    // Opciones para los selects
     const usersOptions = [
         { value: 'user1', label: 'Usuario 1' },
         { value: 'user2', label: 'Usuario 2' },
@@ -27,6 +30,29 @@ const Expedientes = () => {
         { value: 'lector', label: 'Lector' },
         { value: 'editor', label: 'Editor' },
     ];
+
+    useEffect(() => {
+        const fetchExpedientes = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/api/expedientes', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                console.log('Datos obtenidos:', data); // Verifica los datos obtenidos
+                if (response.ok) {
+                    setExpedientes(data);
+                } else {
+                    console.error('Error al obtener expedientes:', data);
+                }
+            } catch (error) {
+                console.error('Hubo un error con la solicitud:', error);
+            }
+        };
+
+        fetchExpedientes();
+    }, [token]);
 
     const handleBack = () => {
         navigate('/home');
@@ -40,8 +66,8 @@ const Expedientes = () => {
         navigate('/alta-expediente');
     };
 
-    const handleEditExpediente = () => {
-        navigate('/modificar-expediente');
+    const handleEditExpediente = (id) => {
+        navigate(`/modificar-expediente/${id}`);
     };
 
     const handleGrantPermissions = () => {
@@ -62,7 +88,6 @@ const Expedientes = () => {
         setIsModalOpen(false);
     };
 
-    //Navegacion 
     const goToUserManagement = () => {
         navigate('/users');
     };
@@ -110,7 +135,7 @@ const Expedientes = () => {
                 <button onClick={closeModal} className="close-modal-btn">Cerrar</button>
             </Modal>
 
-            {/* Resto del código */}
+            {/* Navegación */}
             <nav className="navbar">
                 <div className="logo">
                     <img src={pageLogo} alt="Page Logo" />
@@ -150,25 +175,27 @@ const Expedientes = () => {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Expediente 1</td>
-                            <td>Tipo A</td>
-                            <td>12345</td>
-                            <td>Tag1, Tag2</td>
-                            <td className="actions">
-                                <button className="action-btn" onClick={handleEditExpediente}>
-                                    <img src={editIcon} alt="Modificar" />
-                                </button>
-                                <button className="action-btn">
-                                    <img src={deleteIcon} alt="Eliminar" />
-                                </button>
-                            </td>
-                            <td>
-                                <button className="grant-permissions-btn" onClick={handleGrantPermissions}>
-                                    Dar Permisos
-                                </button>
-                            </td>
-                        </tr>
+                        {expedientes.map(expediente => (
+                            <tr key={expediente.id}>
+                                <td>{expediente.nombre}</td>
+                                <td>{expediente.tipoExpediente}</td>
+                                <td>{expediente.numeroExpediente}</td>
+                                <td>{expediente.tags}</td>
+                                <td className="actions">
+                                    <button className="action-btn" onClick={() => handleEditExpediente(expediente.id)}>
+                                        <img src={editIcon} alt="Modificar" />
+                                    </button>
+                                    <button className="action-btn">
+                                        <img src={deleteIcon} alt="Eliminar" />
+                                    </button>
+                                </td>
+                                <td>
+                                    <button className="grant-permissions-btn" onClick={handleGrantPermissions}>
+                                        Dar Permisos
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
