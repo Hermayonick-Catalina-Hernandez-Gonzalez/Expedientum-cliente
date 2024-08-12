@@ -18,6 +18,7 @@ const AddUser = () => {
     const [email, setEmail] = useState('');
     const [tipoUsuario, setTipoUsuario] = useState('');
     const [departamento, setDepartamento] = useState('');
+    const [usuario, setUsuario] = useState([]);
 
     const usuarioData = {
         username: username,
@@ -52,6 +53,8 @@ const AddUser = () => {
 
             const data = await response.json();
 
+            const dataExpedientes = data.expedientes;
+            console.log('Datos obtenidos:', dataExpedientes);
             if (response.ok) {
                 console.log('Usuario registrado:', data);
                 navigate('/addUser');

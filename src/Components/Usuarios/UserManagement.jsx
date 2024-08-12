@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/context';
 import './UserManagement.css';
 import pageLogo from '../assets/logo.png';
 import logoutIcon from '../assets/cerrar.png';
@@ -9,12 +10,38 @@ import deleteIcon from '../assets/basura.png';
 import searchIcon from '../assets/buscar.png';
 
 const UserManagement = () => {
+    const { token } = useContext(AuthContext);
     const navigate = useNavigate();
+    const [usuarios, setUsuarios] = useState([]);
 
     const handleAddUser = () => {
         navigate('/add-user');
     };
 
+    useEffect(() => {
+        const fetchUsuarios = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/api/users', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+
+                if (response.ok) {
+                    setUsuarios(data.usuarios);
+                } else {
+                    console.error('Error al obtener usuarios:', data);
+                    setUsuarios([]); // Establece un arreglo vacío en caso de error
+                }
+            } catch (error) {
+                console.error('Hubo un error con la solicitud:', error);
+                setUsuarios([]); // Establece un arreglo vacío en caso de error en la solicitud
+            }
+        };
+
+        fetchUsuarios();
+    }, [token]);
     const handleBack = () => {
         navigate('/home'); 
     };
@@ -76,15 +103,14 @@ const UserManagement = () => {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>Juan Pérez</td>
-                                <td>juan.perez@example.com</td>
-                                <td>Admin</td>
+                        {usuarios.map(usuario => (
+                            <tr key={usuario.id}>
+                                <td>{usuario.username}</td>
+                                <td>{usuario.nombre} {usuario.apellidos}</td>
+                                <td>{usuario.email}</td>
+                                <td>{usuario.tipoUsuario}</td>
                                 <td className="actions">
-                                    <button className="action-btn" onClick={handleModifyUser}>
-                                        <img src={viewIcon} alt="Ver" />
-                                    </button>
-                                    <button className="action-btn" onClick={handleModifyUser}>
+                                    <button className="action-btn" onClick={() => handleModifyUser(usuario.id)}>
                                         <img src={editIcon} alt="Modificar" />
                                     </button>
                                     <button className="action-btn">
@@ -92,7 +118,8 @@ const UserManagement = () => {
                                     </button>
                                 </td>
                             </tr>
-                        </tbody>
+                        ))}
+                    </tbody>
                     </table>
                 </div>
             </div>
