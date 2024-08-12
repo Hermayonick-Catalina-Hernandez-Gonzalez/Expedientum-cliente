@@ -54,6 +54,27 @@ const Expedientes = () => {
         fetchExpedientes();
     }, [token]);
 
+    const handleAcceptExpediente = async (expedienteId) => {
+        try {
+            const response = await fetch('http://localhost:8000/api/darAltaExpedientes', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ id_expediente: expedienteId })
+            });
+    
+            if (response.ok) {
+                setExpedientes(expedientes.filter(exp => exp.id !== expedienteId));
+            } else {
+                console.error('Error al admitir el expediente');
+            }
+        } catch (error) {
+            console.error('Hubo un error al admitir el expediente:', error);
+        }
+    };
+
     const usersOptions = [
         { value: 'user1', label: 'Usuario 1' },
         { value: 'user2', label: 'Usuario 2' },
@@ -200,7 +221,7 @@ const Expedientes = () => {
                                     </button>
                                 </td>
                                 <td>
-                                    <button>Aceptar</button>
+                                <button onClick={() => handleAcceptExpediente(expediente.id)}>Aceptar</button>
                                 </td>
                             </tr>
                         ))}
