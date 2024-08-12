@@ -42,12 +42,20 @@ const Expedientes = () => {
                 const data = await response.json();
                 console.log('Datos obtenidos:', data); // Verifica los datos obtenidos
                 if (response.ok) {
-                    setExpedientes(data);
+                    // Asegúrate de que `data` es un arreglo
+                    if (Array.isArray(data)) {
+                        setExpedientes(data);
+                    } else {
+                        console.error('La respuesta no es un arreglo:', data);
+                        setExpedientes([]); // Establece un arreglo vacío en caso de respuesta no esperada
+                    }
                 } else {
                     console.error('Error al obtener expedientes:', data);
+                    setExpedientes([]); // Establece un arreglo vacío en caso de error
                 }
             } catch (error) {
                 console.error('Hubo un error con la solicitud:', error);
+                setExpedientes([]); // Establece un arreglo vacío en caso de error en la solicitud
             }
         };
 
