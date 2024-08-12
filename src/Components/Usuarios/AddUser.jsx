@@ -39,7 +39,7 @@ const AddUser = () => {
 
         // Lógica para registrar un nuevo expediente
         try {      
-            const response = await fetch('http://localhost:8000/api/usuarios', {
+            const response = await fetch('http://localhost:8000/api/users', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

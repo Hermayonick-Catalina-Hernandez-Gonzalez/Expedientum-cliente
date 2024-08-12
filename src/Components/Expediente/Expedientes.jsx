@@ -40,11 +40,13 @@ const Expedientes = () => {
                     }
                 });
                 const data = await response.json();
-                console.log('Datos obtenidos:', data); // Verifica los datos obtenidos
+
+                const dataExpedientes = data.expedientes;
+                console.log('Datos obtenidos:', dataExpedientes); // Verifica los datos obtenidos
                 if (response.ok) {
                     // Asegúrate de que `data` es un arreglo
-                    if (Array.isArray(data)) {
-                        setExpedientes(data);
+                    if (Array.isArray(dataExpedientes)) {
+                        setExpedientes(dataExpedientes);
                     } else {
                         console.error('La respuesta no es un arreglo:', data);
                         setExpedientes([]); // Establece un arreglo vacío en caso de respuesta no esperada
