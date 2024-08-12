@@ -1,7 +1,8 @@
-import React, { useState, useEffect } from 'react'; 
+import React, { useState, useEffect, useContext } from 'react';
 import Modal from 'react-modal';
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
+import { AuthContext } from '../../context/context';
 import pageLogo from '../assets/logo.png';
 import editIcon from '../assets/lapiz.png';
 import deleteIcon from '../assets/basura.png';
@@ -13,34 +14,45 @@ import './Expedientes.css';
 Modal.setAppElement('#root');
 
 const Expedientes = () => {
+    const { token } = useContext(AuthContext);
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [permissions, setPermissions] = useState([]);
     const [userRole, setUserRole] = useState(null);
+    const [expedientes, setExpedientes] = useState([]);
 
     useEffect(() => {
-        const fetchUserRole = async () => {
+        const fetchExpedientes = async () => {
             try {
-                const token = 'your-auth-token-here'; 
-                const response = await fetch('http://localhost:8000/api/expedientes', {
+                const response = await fetch('http://localhost:8000/api/expedientesPorAdmitir', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
                 });
+                const data = await response.json();
 
+                const dataExpedientes = data.expedientes;
+                console.log('Datos obtenidos:', dataExpedientes); // Verifica los datos obtenidos
                 if (response.ok) {
-                    const data = await response.json();
-                    setUserRole(data.tipoUsuario);
+                    // Asegúrate de que `data` es un arreglo
+                    if (Array.isArray(dataExpedientes)) {
+                        setExpedientes(dataExpedientes);
+                    } else {
+                        console.error('La respuesta no es un arreglo:', data);
+                        setExpedientes([]); // Establece un arreglo vacío en caso de respuesta no esperada
+                    }
                 } else {
-                    console.error('Error fetching user role');
+                    console.error('Error al obtener expedientes:', data);
+                    setExpedientes([]); // Establece un arreglo vacío en caso de error
                 }
             } catch (error) {
-                console.error('Error:', error);
-            } 
+                console.error('Hubo un error con la solicitud:', error);
+                setExpedientes([]); // Establece un arreglo vacío en caso de error en la solicitud
+            }
         };
 
-        fetchUserRole();
-    }, []);
+        fetchExpedientes();
+    }, [token]);
 
     const usersOptions = [
         { value: 'user1', label: 'Usuario 1' },
@@ -51,7 +63,7 @@ const Expedientes = () => {
     // Configura opciones de rol condicionalmente basado en `userRole`
     const roleOptions = [
         { value: 'lector', label: 'Lector' },
-        ...(userRole === 'administrador' ? [{ value: 'propietario', label: 'Propietario' }] : []),
+        { value: 'Propietario', label: 'Propietario' },
     ];
 
     const handleBack = () => {
@@ -162,27 +174,32 @@ const Expedientes = () => {
                             <th>Tipo de Expediente</th>
                             <th>Número de Expediente</th>
                             <th>Tags</th>
+                            <th>Acciones</th>
                             <th>Permisos</th>
-                            <th>Decisiones</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Expediente 1</td>
-                            <td>Tipo A</td>
-                            <td>12345</td>
-                            <td>Tag1, Tag2</td>
-                            
-                            <td>
-                                <button className="grant-permissions-btn" onClick={handleGrantPermissions}>
-                                    Dar Permisos
-                                </button>
-                            </td>
-                            <td>
-                                <button>Permitir</button>
-                                <button>Denegar</button>
-                            </td>
-                        </tr>
+                        {expedientes.map(expediente => (
+                            <tr key={expediente.id}>
+                                <td>{expediente.nombre}</td>
+                                <td>{expediente.tipoExpediente}</td>
+                                <td>{expediente.numeroExpediente}</td>
+                                <td>{expediente.tags}</td>
+                                <td className="actions">
+                                    <button className="action-btn" onClick={() => handleEditExpediente(expediente.id)}>
+                                        <img src={editIcon} alt="Modificar" />
+                                    </button>
+                                    <button className="action-btn">
+                                        <img src={deleteIcon} alt="Eliminar" />
+                                    </button>
+                                </td>
+                                <td>
+                                    <button className="grant-permissions-btn" onClick={handleGrantPermissions}>
+                                        Dar Permisos
+                                    </button>
+                                </td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </div>
