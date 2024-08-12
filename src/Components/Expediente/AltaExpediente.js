@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
@@ -16,6 +16,34 @@ const Expedientes = () => {
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [permissions, setPermissions] = useState([]);
+    const [userRole, setUserRole] = useState(null);
+    const [loading, setLoading] = useState(true); 
+
+    useEffect(() => {
+        const fetchUserRole = async () => {
+            try {
+                const token = 'your-auth-token-here'; 
+                const response = await fetch('http://localhost:8000/api/user', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setUserRole(data.tipoUsuario); // Usa `tipoUsuario` para el rol
+                } else {
+                    console.error('Error fetching user role');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchUserRole();
+    }, []);
 
     const usersOptions = [
         { value: 'user1', label: 'Usuario 1' },
@@ -23,9 +51,10 @@ const Expedientes = () => {
         { value: 'user3', label: 'Usuario 3' },
     ];
 
+    // Configura opciones de rol condicionalmente basado en `userRole`
     const roleOptions = [
         { value: 'lector', label: 'Lector' },
-        { value: 'editor', label: 'Editor' },
+        ...(userRole === 'admin' ? [{ value: 'propietario', label: 'Propietario' }] : []),
     ];
 
     const handleBack = () => {
@@ -54,8 +83,8 @@ const Expedientes = () => {
         setIsModalOpen(false);
     };
 
-    //Navegacion 
-     const goToUserManagement = () => {
+    // Navegación
+    const goToUserManagement = () => {
         navigate('/users');
     };
 
@@ -70,6 +99,10 @@ const Expedientes = () => {
     const goToPerfil = () => {
         navigate('/perfil');
     };
+
+    if (loading) {
+        return <div>Loading...</div>; // O una pantalla de carga
+    }
 
     return (
         <div className="main-container">

@@ -28,7 +28,7 @@ const Expedientes = () => {
 
     const roleOptions = [
         { value: 'lector', label: 'Lector' },
-        { value: 'editor', label: 'Editor' },
+        { value: 'Propietario', label: 'Propietario' },
     ];
 
     useEffect(() => {
