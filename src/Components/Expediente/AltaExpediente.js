@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
 import Modal from 'react-modal';
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
@@ -17,9 +17,8 @@ const Expedientes = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [permissions, setPermissions] = useState([]);
     const [userRole, setUserRole] = useState(null);
-    const [loading, setLoading] = useState(true); 
 
-    useEffect(() => {
+    useContext(() => {
         const fetchUserRole = async () => {
             try {
                 const token = 'your-auth-token-here'; 
@@ -37,9 +36,7 @@ const Expedientes = () => {
                 }
             } catch (error) {
                 console.error('Error:', error);
-            } finally {
-                setLoading(false);
-            }
+            } 
         };
 
         fetchUserRole();
@@ -54,7 +51,7 @@ const Expedientes = () => {
     // Configura opciones de rol condicionalmente basado en `userRole`
     const roleOptions = [
         { value: 'lector', label: 'Lector' },
-        ...(userRole === 'admin' ? [{ value: 'propietario', label: 'Propietario' }] : []),
+        ...(userRole === 'administrador' ? [{ value: 'propietario', label: 'Propietario' }] : []),
     ];
 
     const handleBack = () => {
@@ -100,9 +97,6 @@ const Expedientes = () => {
         navigate('/perfil');
     };
 
-    if (loading) {
-        return <div>Loading...</div>; // O una pantalla de carga
-    }
 
     return (
         <div className="main-container">
