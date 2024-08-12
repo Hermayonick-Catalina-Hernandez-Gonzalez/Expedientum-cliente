@@ -10,6 +10,7 @@ const AddUser = () => {
     const navigate = useNavigate();
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
     const [nombre, setNombre] = useState('');
     const [apellidos, setApellidos] = useState('');
     const [genero, setGenero] = useState('');
@@ -18,59 +19,49 @@ const AddUser = () => {
     const [tipoUsuario, setTipoUsuario] = useState('');
     const [departamento, setDepartamento] = useState('');
 
-    const userData = {
-        username,
-        password,
-        nombre,
-        apellidos,
-        genero,
-        fechaNacimiento,
-        email,
-        tipoUsuario,
-        departamento
+    const usuarioData = {
+        username: username,
+        password: password,
+        nombre: nombre,
+        apellidos: apellidos,
+        genero: genero,
+        fechaNacimiento: fechaNacimiento,
+        email: email,
+        tipoUsuario: tipoUsuario,
+        departamento: departamento
     };
 
     const handleBack = () => {
-        navigate('/users');
+        navigate('/add-user');
     };
 
-    const handleRegister = async () => {
-        console.log('Intentando registrar usuario con los siguientes datos:', userData);
+    const handleRegister  = async () =>  {
 
-        try {
+        // Lógica para registrar un nuevo expediente
+        try {      
             const response = await fetch('http://localhost:8000/api/usuarios', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',
                     'Authorization': `Bearer ${token}`
                 },
-                body: JSON.stringify(userData),
+                body: JSON.stringify(usuarioData),
             });
 
             const data = await response.json();
 
-            console.log('Respuesta del servidor:', data);
-
             if (response.ok) {
                 console.log('Usuario registrado:', data);
-                // Limpiar el formulario
-                setUsername('');
-                setPassword('');
-                setNombre('');
-                setApellidos('');
-                setGenero('');
-                setFechaNacimiento('');
-                setEmail('');
-                setTipoUsuario('');
-                setDepartamento('');
-                navigate('/users');
+                navigate('/addUser');
+
             } else {
-                console.error('Error al registrar usuario:', data);
+                console.error('Error al registrar expediente:', data);
             }
         } catch (error) {
             console.error('Hubo un error con la solicitud:', error);
         }
     };
+
 
     return (
         <div className="main-container">
@@ -92,67 +83,74 @@ const AddUser = () => {
             <div className="add-user-content">
                 <div className="add-user-form">
                     <h2>Registrar Usuario</h2>
-                    <input 
-                        type="text" 
-                        placeholder="Username" 
-                        value={username} 
-                        onChange={(e) => setUsername(e.target.value)} 
-                        required 
+                    <input
+                        type="text"
+                        placeholder="Username"
+                        value={username}
+                        onChange={(e) => setUsername(e.target.value)}
+                        required
                     />
-                    <input 
-                        type="password" 
-                        placeholder="Password" 
-                        value={password} 
-                        onChange={(e) => setPassword(e.target.value)} 
-                        required 
+                    <input
+                        type="password"
+                        placeholder="Password"
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        required
                     />
-                    <input 
-                        type="text" 
-                        placeholder="Nombre" 
-                        value={nombre} 
-                        onChange={(e) => setNombre(e.target.value)} 
-                        required 
+                    <input
+                        type="password"
+                        placeholder="Confirmar Password"
+                        value={confirmPassword}
+                        onChange={(e) => setConfirmPassword(e.target.value)}
+                        required
                     />
-                    <input 
-                        type="text" 
-                        placeholder="Apellidos (opcional)" 
-                        value={apellidos} 
-                        onChange={(e) => setApellidos(e.target.value)} 
+                    <input
+                        type="text"
+                        placeholder="Nombre"
+                        value={nombre}
+                        onChange={(e) => setNombre(e.target.value)}
+                        required
                     />
-                    <select 
-                        value={genero} 
+                    <input
+                        type="text"
+                        placeholder="Apellidos (opcional)"
+                        value={apellidos}
+                        onChange={(e) => setApellidos(e.target.value)}
+                    />
+                    <select
+                        value={genero}
                         onChange={(e) => setGenero(e.target.value)}
                     >
                         <option value="">Género (opcional)</option>
-                        <option value="male">Masculino</option>
-                        <option value="female">Femenino</option>
-                        <option value="other">Otro</option>
+                        <option value="M">Masculino</option>
+                        <option value="F">Femenino</option>
                     </select>
-                    <input 
-                        type="date" 
-                        placeholder="Fecha de nacimiento (opcional)" 
-                        value={fechaNacimiento} 
-                        onChange={(e) => setFechaNacimiento(e.target.value)} 
+
+                    <input
+                        type="date"
+                        placeholder="Fecha de nacimiento (opcional)"
+                        value={fechaNacimiento}
+                        onChange={(e) => setFechaNacimiento(e.target.value)}
                     />
-                    <input 
-                        type="email" 
-                        placeholder="Email" 
-                        value={email} 
-                        onChange={(e) => setEmail(e.target.value)} 
-                        required 
+                    <input
+                        type="email"
+                        placeholder="Email"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        required
                     />
-                    <input 
-                        type="text" 
-                        placeholder="Tipo de usuario" 
-                        value={tipoUsuario} 
-                        onChange={(e) => setTipoUsuario(e.target.value)} 
-                        required 
+                    <input
+                        type="text"
+                        placeholder="Tipo de usuario"
+                        value={tipoUsuario}
+                        onChange={(e) => setTipoUsuario(e.target.value)}
+                        required
                     />
-                    <input 
-                        type="text" 
-                        placeholder="Departamento (opcional)" 
-                        value={departamento} 
-                        onChange={(e) => setDepartamento(e.target.value)} 
+                    <input
+                        type="text"
+                        placeholder="Departamento"
+                        value={departamento}
+                        onChange={(e) => setDepartamento(e.target.value)}
                     />
                     <div className="form-buttons">
                         <button className="register-btn" onClick={handleRegister}>

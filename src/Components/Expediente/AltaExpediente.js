@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect } from 'react'; 
 import Modal from 'react-modal';
 import Select from 'react-select';
 import { useNavigate } from 'react-router-dom';
@@ -18,11 +18,11 @@ const Expedientes = () => {
     const [permissions, setPermissions] = useState([]);
     const [userRole, setUserRole] = useState(null);
 
-    useContext(() => {
+    useEffect(() => {
         const fetchUserRole = async () => {
             try {
                 const token = 'your-auth-token-here'; 
-                const response = await fetch('http://localhost:8000/api/user', {
+                const response = await fetch('http://localhost:8000/api/expedientes', {
                     headers: {
                         'Authorization': `Bearer ${token}`
                     }
@@ -30,7 +30,7 @@ const Expedientes = () => {
 
                 if (response.ok) {
                     const data = await response.json();
-                    setUserRole(data.tipoUsuario); // Usa `tipoUsuario` para el rol
+                    setUserRole(data.tipoUsuario);
                 } else {
                     console.error('Error fetching user role');
                 }
@@ -82,7 +82,7 @@ const Expedientes = () => {
 
     // Navegación
     const goToUserManagement = () => {
-        navigate('/users');
+        navigate('/usuarios');
     };
 
     const goToDocumentos = () => {
