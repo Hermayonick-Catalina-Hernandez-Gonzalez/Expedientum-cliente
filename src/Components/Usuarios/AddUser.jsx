@@ -56,7 +56,7 @@ const AddUser = () => {
 
             if (response.ok) {
                 console.log('Usuario registrado:', data);
-                navigate('/addUser');
+                navigate('/users');
 
             } else {
                 console.error('Error al registrar expediente:', data);
