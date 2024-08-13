@@ -75,6 +75,28 @@ const Expedientes = () => {
         }
     };
 
+    const handleDeleteExpediente = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/expedientes/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+    
+            if (response.ok) {
+                setExpedientes(expedientes.filter(expediente => expediente.id !== id));
+                console.log(`Expediente con ID ${id} eliminado correctamente`);
+            } else {
+                const data = await response.json();
+                console.error('Error al eliminar el expediente:', data.error);
+            }
+        } catch (error) {
+            console.error('Hubo un error con la solicitud:', error);
+        }
+    };    
+
     const usersOptions = [
         { value: 'user1', label: 'Usuario 1' },
         { value: 'user2', label: 'Usuario 2' },
@@ -211,7 +233,7 @@ const Expedientes = () => {
                                     <button className="action-btn" onClick={() => handleEditExpediente(expediente.id)}>
                                         <img src={editIcon} alt="Modificar" />
                                     </button>
-                                    <button className="action-btn">
+                                    <button className="action-btn" onClick={() => handleDeleteExpediente(expediente.id)}>
                                         <img src={deleteIcon} alt="Eliminar" />
                                     </button>
                                 </td>

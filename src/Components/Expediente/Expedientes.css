@@ -137,6 +137,25 @@ body, html {
 }
 
 
+.delete-permission-btn {
+    background-color: #003152; 
+    color: #fff; 
+    border: none; 
+    border-radius: 4px; 
+    padding: 13px 4px;
+    font-size: 10px; 
+    cursor: pointer; 
+    transition: background-color 0.3s; 
+    display: inline-block; 
+    width: 80px; 
+    text-align: center; 
+}
+
+.delete-permission-btn:hover {
+    background-color: #01243a; 
+}
+
+
 .permissions-modal {
     position: absolute;
     top: 50%;
@@ -145,7 +164,8 @@ body, html {
     background: white;
     padding: 20px;
     border-radius: 8px;
-    width: 400px;
+    width: 60%;
+
 }
 
 .permissions-overlay {

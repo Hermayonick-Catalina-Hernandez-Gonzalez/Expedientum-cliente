@@ -13,22 +13,18 @@ import './Expedientes.css';
 Modal.setAppElement('#root');
 
 const Expedientes = () => {
-    const { token } = useContext(AuthContext);
+    const { token, userRole } = useContext(AuthContext); // Obtener el rol del usuario
     const navigate = useNavigate();
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [permissions, setPermissions] = useState([]);
     const [expedientes, setExpedientes] = useState([]);
+    const [usersOptions, setUsersOptions] = useState([]);
+    const [selectedExpedienteId, setSelectedExpedienteId] = useState(null);
 
     // Opciones para los selects
-    const usersOptions = [
-        { value: 'user1', label: 'Usuario 1' },
-        { value: 'user2', label: 'Usuario 2' },
-        { value: 'user3', label: 'Usuario 3' },
-    ];
-
     const roleOptions = [
         { value: 'lector', label: 'Lector' },
-        { value: 'Propietario', label: 'Propietario' },
+{ value: 'propietario', label: 'Propietario' } // Mostrar Propietario solo si es admin
     ];
 
     useEffect(() => {
@@ -40,28 +36,40 @@ const Expedientes = () => {
                     }
                 });
                 const data = await response.json();
-
-                const dataExpedientes = data.expedientes;
-                console.log('Datos obtenidos:', dataExpedientes); // Verifica los datos obtenidos
                 if (response.ok) {
-                    // Asegúrate de que `data` es un arreglo
-                    if (Array.isArray(dataExpedientes)) {
-                        setExpedientes(dataExpedientes);
-                    } else {
-                        console.error('La respuesta no es un arreglo:', data);
-                        setExpedientes([]); // Establece un arreglo vacío en caso de respuesta no esperada
-                    }
+                    setExpedientes(Array.isArray(data.expedientes) ? data.expedientes : []);
                 } else {
-                    console.error('Error al obtener expedientes:', data);
-                    setExpedientes([]); // Establece un arreglo vacío en caso de error
+                    setExpedientes([]);
                 }
             } catch (error) {
-                console.error('Hubo un error con la solicitud:', error);
-                setExpedientes([]); // Establece un arreglo vacío en caso de error en la solicitud
+                setExpedientes([]);
+            }
+        };
+
+        const fetchUsers = async () => {
+            try {
+                const response = await fetch('http://localhost:8000/api/users', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+                const data = await response.json();
+                if (response.ok) {
+                    const options = data.usuarios.map(user => ({
+                        value: user.id,
+                        label: user.nombre
+                    }));
+                    setUsersOptions(options);
+                } else {
+                    setUsersOptions([]);
+                }
+            } catch (error) {
+                setUsersOptions([]);
             }
         };
 
         fetchExpedientes();
+        fetchUsers();
     }, [token]);
 
     const handleBack = () => {
@@ -80,13 +88,70 @@ const Expedientes = () => {
         navigate(`/modificar-expediente/${id}`);
     };
 
-    const handleGrantPermissions = () => {
+    const handleGrantPermissions = (expedienteId) => {
+        setSelectedExpedienteId(expedienteId);
         setIsModalOpen(true);
     };
 
     const handleAddPermission = () => {
         setPermissions([...permissions, { user: null, role: null }]);
     };
+
+    const handleDeletePermission = (index) => {
+        setPermissions(permissions.filter((_, i) => i !== index));
+    };
+
+    const handleDeleteExpediente = async (id) => {
+        try {
+            const response = await fetch(`http://localhost:8000/api/expedientes/${id}`, {
+                method: 'DELETE',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                }
+            });
+
+            if (response.ok) {
+                setExpedientes(expedientes.filter(expediente => expediente.id !== id));
+                console.log(`Expediente con ID ${id} eliminado correctamente`);
+            } else {
+                const data = await response.json();
+                console.error('Error al eliminar el expediente:', data.error);
+            }
+        } catch (error) {
+            console.error('Hubo un error con la solicitud:', error);
+        }
+    };
+
+    const handleAssignPermissions = async () => {
+        try {
+            const response = await fetch('http://localhost:8000/api/asignarPermisos', {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    permissions: permissions.map(permission => ({
+                        expediente_ID: selectedExpedienteId,
+                        usuario_ID: permission.user.value,
+                        rol: permission.role.value
+                    }))
+                })
+            });
+    
+            if (response.ok) {
+                console.log('Permisos asignados correctamente');
+                closeModal();
+            } else {
+                const data = await response.json();
+                console.error('Error al asignar permisos:', data.error);
+            }
+        } catch (error) {
+            console.error('Hubo un error con la solicitud:', error);
+        }
+    };
+    
 
     const handleChange = (index, type, value) => {
         const updatedPermissions = [...permissions];
@@ -114,6 +179,7 @@ const Expedientes = () => {
         navigate('/perfil');
     };
 
+
     return (
         <div className="main-container">
             {/* Modal */}
@@ -139,9 +205,13 @@ const Expedientes = () => {
                             placeholder="Seleccionar rol"
                             className="select-role"
                         />
+                        <button onClick={() => handleDeletePermission(index)} className="delete-permission-btn">
+                            Eliminar
+                        </button>
                     </div>
                 ))}
                 <button onClick={handleAddPermission} className="add-permission-btn">Agregar permiso</button>
+                <button onClick={handleAssignPermissions} className="confirm-permissions-btn">Confirmar</button>
                 <button onClick={closeModal} className="close-modal-btn">Cerrar</button>
             </Modal>
 
@@ -195,12 +265,12 @@ const Expedientes = () => {
                                     <button className="action-btn" onClick={() => handleEditExpediente(expediente.id)}>
                                         <img src={editIcon} alt="Modificar" />
                                     </button>
-                                    <button className="action-btn">
+                                    <button className="action-btn" onClick={() => handleDeleteExpediente(expediente.id)}>
                                         <img src={deleteIcon} alt="Eliminar" />
                                     </button>
                                 </td>
                                 <td>
-                                    <button className="grant-permissions-btn" onClick={handleGrantPermissions}>
+                                    <button onClick={() => handleGrantPermissions(expediente.id)} className="confirm-permissions-btn">
                                         Dar Permisos
                                     </button>
                                 </td>
