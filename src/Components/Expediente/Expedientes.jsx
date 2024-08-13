@@ -24,7 +24,7 @@ const Expedientes = () => {
     // Opciones para los selects
     const roleOptions = [
         { value: 'lector', label: 'Lector' },
-{ value: 'propietario', label: 'Propietario' } // Mostrar Propietario solo si es admin
+        { value: 'propietario', label: 'Propietario' } // Mostrar Propietario solo si es admin
     ];
 
     useEffect(() => {
@@ -124,6 +124,9 @@ const Expedientes = () => {
     };
 
     const handleAssignPermissions = async () => {
+        console.log('Permissions:', permissions);
+        console.log('Selected Expediente ID:', selectedExpedienteId);
+    
         try {
             const response = await fetch('http://localhost:8000/api/asignarPermisos', {
                 method: 'POST',
@@ -134,29 +137,33 @@ const Expedientes = () => {
                 body: JSON.stringify({
                     permissions: permissions.map(permission => ({
                         expediente_ID: selectedExpedienteId,
-                        usuario_ID: permission.user.value,
-                        rol: permission.role.value
+                        usuario_ID: permission.user?.value,
+                        rol: permission.role?.value
                     }))
                 })
             });
     
+            // Convertir la respuesta a JSON para obtener los datos completos
+            const responseData = await response.json();
+    
             if (response.ok) {
                 console.log('Permisos asignados correctamente');
+                console.log('Respuesta completa:', responseData); // Mostrar la respuesta completa en la consola
                 closeModal();
             } else {
-                const data = await response.json();
-                console.error('Error al asignar permisos:', data.error);
+                console.error('Error al asignar permisos:', responseData); // Mostrar el error completo
             }
         } catch (error) {
             console.error('Hubo un error con la solicitud:', error);
         }
-    };
-    
+    };    
 
     const handleChange = (index, type, value) => {
         const updatedPermissions = [...permissions];
         updatedPermissions[index][type] = value;
         setPermissions(updatedPermissions);
+
+        console.log('Updated Permissions:', updatedPermissions);
     };
 
     const closeModal = () => {
@@ -196,12 +203,14 @@ const Expedientes = () => {
                         <Select
                             options={usersOptions}
                             onChange={(selectedOption) => handleChange(index, 'user', selectedOption)}
+                            value={permission.user} // Asegúrate de que el valor se mantenga después de la selección
                             placeholder="Seleccionar usuario"
                             className="select-user"
                         />
                         <Select
                             options={roleOptions}
                             onChange={(selectedOption) => handleChange(index, 'role', selectedOption)}
+                            value={permission.role} // Asegúrate de que el valor se mantenga después de la selección
                             placeholder="Seleccionar rol"
                             className="select-role"
                         />
