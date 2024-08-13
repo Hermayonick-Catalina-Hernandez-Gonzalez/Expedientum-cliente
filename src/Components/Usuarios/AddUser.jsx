@@ -23,13 +23,14 @@ const AddUser = () => {
     const usuarioData = {
         username: username,
         password: password,
+        password_confirmation: confirmPassword,
         nombre: nombre,
         apellidos: apellidos,
         genero: genero,
         fechaNacimiento: fechaNacimiento,
         email: email,
         tipoUsuario: tipoUsuario,
-        departamento: departamento
+        id_departamento: departamento
     };
 
 
@@ -53,8 +54,6 @@ const AddUser = () => {
 
             const data = await response.json();
 
-            const dataExpedientes = data.expedientes;
-            console.log('Datos obtenidos:', dataExpedientes);
             if (response.ok) {
                 console.log('Usuario registrado:', data);
                 navigate('/addUser');
